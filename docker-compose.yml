@@ -1,0 +1,116 @@
+version: '3.4'
+services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - 4566:4566
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:latest
+    container_name: todo-db
+    environment:
+      POSTGRES_DB: TodoApp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: IruoVict21
+    ports:
+      - "5431:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  app:
+    image: vi108/todoapp:latest
+    container_name: todo-application
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/TodoApp
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: IruoVict21
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+       - app-network
+    ports:
+        - "8017:8017"
+    deploy:
+        replicas: 1
+        restart_policy:
+          condition: on-failure
+    healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:8017" ]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+        - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    networks:
+        - app-network
+#    depends_on:
+#        - alertmanager
+    healthcheck:
+      test: [ "CMD", "wget", "-qO-", "http://localhost:9090/-/healthy" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+#  alertmanager:
+#    image: prom/alertmanager:latest
+#    container_name: alertmanager
+#    volumes:
+#        - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+#    command:
+#        - "--config.file=/etc/alertmanager/alertmanager.yml"
+#    ports:
+#        - "9093:9093"
+#    networks:
+#        - app-network
+#    healthcheck:
+#        test: [ "CMD", "wget", "-qO-", "http://localhost:9093/-/healthy" ]
+#        interval: 30s
+#        timeout: 10s
+#        retries: 3
+
+
+  grafana:
+      image: grafana/grafana:latest
+      container_name: grafana
+      ports:
+        - "3000:3000"
+      networks:
+        - app-network
+      depends_on:
+        - prometheus
+      healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:3000/api/health" ]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+
+networks:
+    app-network:
+      driver: bridge
+
+
+
+#networks:
+#  default:
+#    name: localstack

@@ -1,0 +1,64 @@
+name: CI/CD pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_deploy_kind:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Install Docker if not pre-installed
+    - name: Install Docker
+      uses: docker-practice/actions-setup-docker@v1
+
+    # Install kubectl
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    # Install Kind
+    - name: Install Kind
+      run: |
+        curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-amd64
+        chmod +x ./kind
+        sudo mv ./kind /usr/local/bin/kind
+
+    # Create Kind Cluster
+    - name: Create Kind cluster
+      run: |
+        kind create cluster --name todoapp-cluster
+
+    # Build Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t todo-app-image:latest .
+
+    # Load Docker image into Kind
+    - name: Load image into Kind
+      run: |
+        kind load docker-image todoapp-image:latest --name todoapp-cluster
+
+    # Deploy Kubernetes manifests
+    - name: Deploy manifests to Kind
+      run: |
+        kubectl apply -f k8s/
+
+    # Verify Deployment Rollout
+    - name: Verify Deployment
+      run: |
+        kubectl rollout status deployment/myapp-deployment
+        kubectl get pods -o wide
+        kubectl get svc
+
+    # (Optional) Clean up Kind cluster after job
+    # - name: Delete Kind cluster
+    #   if: always()
+    #   run: |
+    #     kind delete cluster --name todoapp-cluster

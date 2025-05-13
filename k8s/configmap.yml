@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todoapp-config
+data:
+  APP_NAME: "Todo List API"
+  ENV: "development"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todoapp-config
+data:
+  APP_NAME: "Todo List API"
+  ENV: "development"
