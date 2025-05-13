@@ -5,10 +5,5 @@ metadata:
 data:
   APP_NAME: "Todo List API"
   ENV: "development"
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: todoapp-config
-data:
-  APP_NAME: "Todo List API"
-  ENV: "development"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-service:5432/TodoApp"
+  SPRING_DATASOURCE_USERNAME: "postgres"

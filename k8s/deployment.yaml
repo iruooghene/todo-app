@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todoapp
-          image: todo-app-image:latest
+          image: vi108/todoapp:latest
           ports:
             - containerPort: 8017
           envFrom:
@@ -31,3 +31,4 @@ spec:
             limits:
               cpu: "500m"
               memory: "512Mi"
+
