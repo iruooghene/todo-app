@@ -1,15 +1,15 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
+# terraform {
+#   required_providers {
+#     aws = {
+#       source  = "hashicorp/aws"
+#       version = "~> 5.0"
+#     }
+#   }
+# }
 
-provider "kubernetes" {
-  config_path = "/home/victoria/.kube/config"
-}
+# provider "kubernetes" {
+#   config_path = "/home/victoria/.kube/config"
+# }
 
 
 provider "aws" {
@@ -20,8 +20,8 @@ provider "aws" {
 
   endpoints {
     s3   = "http://localhost:4566"
-    eks  = "http://localhost:4566"
-    iam  = "http://localhost:4566"
-    ec2  = "http://localhost:4566"
+    # eks  = "http://localhost:4566"
+    # iam  = "http://localhost:4566"
+    # ec2  = "http://localhost:4566"
   }
 }
