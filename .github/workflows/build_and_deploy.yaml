@@ -51,9 +51,6 @@ jobs:
               mkdir -p $HOME/.kube
               echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
 
-      - name: List manifests directory
-        run: ls -l ./k8s/manifests
-
 
       - name: Apply Kubernetes manifests
         run: kubectl apply -f ./k8s/
