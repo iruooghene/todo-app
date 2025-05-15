@@ -34,6 +34,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.getAllTasks());
     }
 
+
     @GetMapping("/hello")
     public ResponseEntity<String> sayHello() {
         return ResponseEntity.ok("Hello, Kubernetes!");

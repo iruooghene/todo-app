@@ -41,3 +41,16 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: docker push vi108/cloudproject-app:latest
 
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+            version: 'latest'
+
+      - name: Configure kubeconfig
+        run: |
+              echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
+
+      - name: Apply Kubernetes manifests
+        run: |
+              kubectl apply -f ./k8s/manifests/
+
