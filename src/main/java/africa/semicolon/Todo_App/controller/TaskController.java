@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/v1/task")
+@RequestMapping(value = "/api")
 public class TaskController {
+
     @Autowired
     private final TaskService taskService;
 
@@ -31,6 +32,11 @@ public class TaskController {
     @GetMapping
     public ResponseEntity<List<Tasks>> getAllTasks() {
         return ResponseEntity.ok(taskService.getAllTasks());
+    }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> sayHello() {
+        return ResponseEntity.ok("Hello, Kubernetes!");
     }
 
 

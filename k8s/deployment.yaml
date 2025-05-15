@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todoapp
-          image: vi108/todoapp:latest
+          image: vi108/todoapp:new
           ports:
             - containerPort: 8017
           envFrom:

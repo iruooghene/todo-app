@@ -14,7 +14,7 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090"]
 
-  - job_name: "spring-boot-app"
-    metrics_path: '/actuator/prometheus'
+  - job_name: "todoapp"
+    metrics_path: '/actuator/metrics'
     static_configs:
-      - targets: ["cloud-app:8088"]
+      - targets: ["172.16.1.44:8017"]
