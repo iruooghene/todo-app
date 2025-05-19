@@ -31,7 +31,6 @@ public class TaskServiceImplTest {
         CreateTaskRequest request = new CreateTaskRequest();
         request.setTitle("Title");
         request.setDescription("Description");
-        request.setStatus(Status.IN_PROGRESS);
         CreateTaskResponse response = taskService.create(request);
         assertNotNull(response);
         assertTrue(response.getId() > 0);
