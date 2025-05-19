@@ -1,7 +1,6 @@
 package africa.semicolon.Todo_App.Service;
 
 import africa.semicolon.Todo_App.Data.Repositories.TasksRepository;
-import africa.semicolon.Todo_App.Data.model.Status;
 import africa.semicolon.Todo_App.Data.model.Tasks;
 import africa.semicolon.Todo_App.dtos.Requests.CreateTaskRequest;
 import africa.semicolon.Todo_App.dtos.Response.CreateTaskResponse;
@@ -17,7 +16,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class TaskServiceImplTest {

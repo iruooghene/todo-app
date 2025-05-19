@@ -18,8 +18,5 @@ public class Tasks {
     private String title;
     private String description;
 
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    private Set<Status> statuses;
 
 }

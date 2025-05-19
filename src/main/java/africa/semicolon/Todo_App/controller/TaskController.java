@@ -6,7 +6,6 @@ import africa.semicolon.Todo_App.dtos.Requests.CreateTaskRequest;
 import africa.semicolon.Todo_App.dtos.Response.CreateTaskResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +22,9 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping
-    public ResponseEntity<?> createTask(@RequestBody CreateTaskRequest request) {
+
+    @PostMapping("/tasks")
+    public ResponseEntity<CreateTaskResponse> createTask(@RequestBody CreateTaskRequest request) {
         CreateTaskResponse createdTask = taskService.create(request);
         return ResponseEntity.ok(createdTask);
     }
