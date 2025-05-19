@@ -1,0 +1,52 @@
+version: '3.4'
+services:
+
+ postgres:
+   image: postgres:16
+   container_name: todo-db
+   environment:
+    POSTGRES_DB: TodoApp
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: IruoVict21
+   ports:
+    - "5432:5432"
+   volumes:
+     - pg_data:/var/lib/postgresql/data
+   networks:
+    - app-network
+   healthcheck:
+    test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+
+ app:
+  image: vi108/todoapp:new
+  container_name: todo-application
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/TodoApp
+    SPRING_DATASOURCE_USERNAME: postgres
+    SPRING_DATASOURCE_PASSWORD: IruoVict21
+  depends_on:
+    postgres:
+      condition: service_healthy
+  networks:
+    - app-network
+  ports:
+    - "8018:8017"
+  deploy:
+    replicas: 1
+    restart_policy:
+      condition: on-failure
+  healthcheck:
+    test: [ "CMD", "curl", "-f", "http://localhost:8017" ]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+
+volumes:
+  pg_data:
+
+networks:
+  app-network:
+    driver: bridge

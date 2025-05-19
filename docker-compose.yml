@@ -47,7 +47,7 @@ services:
     image: vi108/todoapp:latest
     container_name: todo-application
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/TodoApp
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5431/TodoApp
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: IruoVict21
     depends_on:
